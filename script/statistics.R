@@ -15,7 +15,7 @@ user_count <- user_count -5
 
 # start of latest order and interval
 db_date_end <- as.Date(dbGetQuery(con, "SELECT starts FROM orders ORDER BY starts DESC LIMIT 1;")[1,1])
-db_date_beg <- db_date_end -222;
+db_date_beg <- db_date_end -150;
 
 # Bestellgruppen, die sich im Zeitraum beteiligt haben
 group_order_total <- dbGetQuery(con, sprintf("SELECT COUNT(DISTINCT name) FROM groups, group_orders, orders WHERE groups.id=group_orders.ordergroup_id AND orders.id=group_orders.order_id AND ends>='%s' AND NOT groups.id IN (61,63,72,75);", db_date_beg))[1,1]
@@ -23,6 +23,10 @@ group_order_total <- dbGetQuery(con, sprintf("SELECT COUNT(DISTINCT name) FROM g
 group_order_weeks <- dbGetQuery(con, sprintf("SELECT COUNT(DISTINCT name) FROM groups, group_orders, orders WHERE groups.id=group_orders.ordergroup_id AND orders.id=group_orders.order_id AND ends>='%s' AND NOT groups.id IN (61,63,72,75) GROUP BY WEEK(ends);", db_date_beg))[,1]
 group_order_weeks <- head(group_order_weeks[-1], -1)
 group_order_week <- median(group_order_weeks)  # Verfahren zur Mittelwertbildung?
+# Anzahl Bestellgruppen pro Monat
+group_order_months <- dbGetQuery(con, sprintf("SELECT COUNT(DISTINCT name) FROM groups, group_orders, orders WHERE groups.id=group_orders.ordergroup_id AND orders.id=group_orders.order_id AND ends>='%s' AND NOT groups.id IN (61,63,72,75) GROUP BY MONTH(ends);", db_date_beg))[,1]
+group_order_months <- head(group_order_months[-1], -1)
+group_order_month <- median(group_order_months)  # Verfahren zur Mittelwertbildung?
 
 # Bestellgruppen, die sich im Zeitraum beteiligt haben (LAGER)
 group_order_stock_total <- dbGetQuery(con, sprintf("SELECT COUNT(DISTINCT name) FROM groups, group_orders, orders WHERE groups.id=group_orders.ordergroup_id AND orders.id=group_orders.order_id AND ends>='%s' AND NOT groups.id IN (61,63,72,75) AND supplier_id=0;", db_date_beg))[1,1]
@@ -45,6 +49,10 @@ group_work_total <- dbGetQuery(con, sprintf("SELECT COUNT(DISTINCT groups.name) 
 group_work_weeks <- dbGetQuery(con, sprintf("SELECT COUNT(DISTINCT groups.name) FROM (SELECT users.id, tasks.updated_on FROM users, assignments, tasks WHERE users.id=assignments.user_id AND tasks.id=assignments.task_id AND tasks.updated_on>='%s') AS active_users, groups, memberships WHERE active_users.id=memberships.user_id AND groups.id=memberships.group_id AND groups.type='Ordergroup' AND NOT groups.id IN (61,63,72,75) GROUP BY WEEK(active_users.updated_on);", db_date_beg))[,1]
 group_work_weeks <- head(group_work_weeks[-1], -1)
 group_work_week <- median(group_work_weeks)  # Verfahren zur Mittelwertbildung?
+# Anzahl Bestellgruppen pro Monat
+group_work_months <- dbGetQuery(con, sprintf("SELECT COUNT(DISTINCT groups.name) FROM (SELECT users.id, tasks.updated_on FROM users, assignments, tasks WHERE users.id=assignments.user_id AND tasks.id=assignments.task_id AND tasks.updated_on>='%s') AS active_users, groups, memberships WHERE active_users.id=memberships.user_id AND groups.id=memberships.group_id AND groups.type='Ordergroup' AND NOT groups.id IN (61,63,72,75) GROUP BY MONTH(active_users.updated_on);", db_date_beg))[,1]
+group_work_months <- head(group_work_months[-1], -1)
+group_work_month <- median(group_work_months)  # Verfahren zur Mittelwertbildung?
 
 
 out <- function(str, arg=0) { cat(sprintf(str, arg)) }
@@ -61,6 +69,9 @@ out("-> das sind %.0f%% aller Gruppen\n", group_order_total/group_count*100)
 out("Bestellgruppen pro Woche: %.1f", group_order_week); out("  (%s)\n",paste(sort(group_order_weeks), collapse=","))
 out("-> das sind %.0f%% aller Gruppen\n", group_order_week/group_count*100)
 out("-> das sind %.0f%% der Gruppen, die insgesamt bestellt/eingekauft haben\n", group_order_week/group_order_total*100)
+out("Bestellgruppen pro Monat: %.1f", group_order_month); out("  (%s)\n",paste(sort(group_order_months), collapse=","))
+out("-> das sind %.0f%% aller Gruppen\n", group_order_month/group_count*100)
+out("-> das sind %.0f%% der Gruppen, die insgesamt bestellt/eingekauft haben\n", group_order_month/group_order_total*100)
 out("\n")
 out("Bestellgruppen, die gearbeitet haben (mindestens ein Mitglied): %d\n", group_work_total)
 out("-> das sind %.0f%% aller Gruppen\n", group_work_total/group_count*100)
@@ -70,6 +81,11 @@ out("-> das sind %.0f%% aller Gruppen\n", group_work_week/group_count*100)
 out("-> das sind %.0f%% der Gruppen, die insgesamt gearbeitet haben\n", group_work_week/group_work_total*100)
 out("-> das sind %.0f%% der Gruppen, die insgesamt bestellt/eingekauft haben\n", group_work_week/group_order_total*100)
 out("-> das sind %.0f%% der Gruppen, die wöchentlich bestellt/eingekauft haben\n", group_work_week/group_order_week*100)
+out("Bestellgruppen pro Monat: %.1f", group_work_month); out("  (%s)\n",paste(sort(group_work_months), collapse=","))
+out("-> das sind %.0f%% aller Gruppen\n", group_work_month/group_count*100)
+out("-> das sind %.0f%% der Gruppen, die insgesamt gearbeitet haben\n", group_work_month/group_work_total*100)
+out("-> das sind %.0f%% der Gruppen, die insgesamt bestellt/eingekauft haben\n", group_work_month/group_order_total*100)
+out("-> das sind %.0f%% der Gruppen, die wöchentlich bestellt/eingekauft haben\n", group_work_month/group_order_week*100)
 out("\n")
 out("--------------------------------------------------------------\n")
 out("\n")
