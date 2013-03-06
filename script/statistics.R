@@ -1,6 +1,6 @@
 # connect to MySQL
 library(RMySQL)
-con <- dbConnect(dbDriver("MySQL"), user="root", "fs_beisswat")
+con <- dbConnect(dbDriver("MySQL"), "fs_beisswat")
 
 # number of users, groups
 user_count <- dbGetQuery(con, "SELECT COUNT(*) FROM users")[1,1]
@@ -15,7 +15,7 @@ group_count <- group_count -4
 
 # start of latest order and interval
 db_date_end <- as.Date(dbGetQuery(con, "SELECT starts FROM orders ORDER BY starts DESC LIMIT 1;")[1,1])
-db_date_beg <- db_date_end -99;
+db_date_beg <- db_date_end -222;
 
 # Bestellgruppen, die sich im Zeitraum beteiligt haben
 group_order_total <- dbGetQuery(con, sprintf("SELECT COUNT(DISTINCT name) FROM groups, group_orders, orders WHERE groups.id=group_orders.ordergroup_id AND orders.id=group_orders.order_id AND ends>='%s';", db_date_beg))[1,1]
