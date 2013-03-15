@@ -1,0 +1,25 @@
+Hallo <%= @user.nick %>,
+
+wie Du sicher schon erfahren hast, hat unsere FoodCoop in den vergangenen zehn Monaten ein Minus von fast 3000 Euro eingefahren. Wir wollen alle helfen, das wieder auszugleichen. Du kannst dazu Anteile kaufen, in der Bestellung "Lager", die ganz oben in der Liste der laufenden Bestellungen steht. Außerdem gibt es in der Garage ein Regal mit netten Dingen, die wir abgeben zugunsten von Beißwat: Stelle etwas dazu oder kaufe einen Artikel aus diesem Regal zugunsten der Koop über die schon genannte Bestellung.
+https://app.foodcoops.net/beisswat
+
+Um Dir zu helfen, eine Größenordnung für Deinen Beitrag zu finden, rechne ich Dir im Folgenden einige Zahlen aus, wie auf dem Plenum am 6. März beschlossen:
+
+(1) In der Foodsoft sind <%= users = User.all.count-5 %> Benutzerinnen und Benutzer registriert. Wenn jede/r den gleichen Anteil zahlen würde, wären das rund <%= per_user = (@minus/(User.all.count-5)).round %> Euro pro Mensch, also <%= ant1=(per_user/@anteil).round %> Anteile.
+
+(2) Seit Einführung der Foodsoft betrug der in der Foodsoft registrierte Gesamtumsatz <%= @sum_trans.round %> Euro, der Gesamtumsatz Deiner Bestellgruppe betrug <%= og_trans = @user.ordergroup.financial_transactions.where('note LIKE \'%Bestellung%\'').sum(:amount).abs.round %> Euro (bei <%= members = @user.ordergroup.users.count %> Mitglied(ern)). Wenn jede/r entsprechend seines Gesamtumsatzes beitragen würde, wären das für Dich und jedes andere Mitglied Deiner Bestellgruppe rund <%= (gu=@minus*og_trans/members/@sum_trans).round %> Euro, also <%= ant2=(gu/@anteil).round %> Anteile.
+
+(3) Die gleichen Zahlen nochmal für den Umsatz im Lager: <%= @sum_trans_lager.round %> Euro Gesamtumsatz der Koop, <%= og_trans_lager = @user.ordergroup.financial_transactions.where('note LIKE \'%Bestellung: Lager%\'').sum(:amount).abs.round %> Euro Umsatz Deiner Bestellgruppe im Lager. Wenn jede/r entsprechend seines Lagerumsatzes beitragen würde, wären das für Dich und jedes andere Mitglied Deiner Bestellgruppe rund <%= (lu=@minus*og_trans_lager/members/@sum_trans_lager).round %> Euro, also <%= ant3=(lu/@anteil).round %> Anteile.
+
+Empfehlung: Du solltest zwischen <%= ant_min=[ant1,ant2,ant3].min %> und <%= ant_max=[ant1,ant2,ant3].max %> Anteile beitragen<% if members>1 %> (bzw. Deine Bestellgruppe zwischen <%= ant_min*members %> und <%= ant_max*members %> Anteile)<% end %>.
+
+Und weil ich schon Zahlen raussuche, noch kurz zum Thema Arbeit: Die Empfehlung des Plenums lautet, mindestens drei Stunden monatlich zu arbeiten. Wenn Du Deine Arbeitsstunden in der Foodsoft registriert hast, hast Du in den vergangenen Monaten durchschnittlich <%= @work.round %> Stunden gearbeitet. 
+
+Vielen Dank für Deine Mithilfe! Es grüßt Dich Deine freundliche Software im Auftrag des Beißwat-Plenums.
+
+-- 
+Das Kleingedruckte:
+
+Diese Nachricht wurde von einer Software erzeugt und verschickt. Niemand außer Dir hat die Zahlen oben gesehen (auch Robert nicht). Fragen? Schreib an Robert <rw@wohnpedia.de>.
+
+Du erhälst diese Nachricht, weil Du ein Benutzerkonto in der Foodsoft hast. Wenn Du nicht mehr Mitglied sein möchtest, schreib an Marlen <kulex@systemausfall.org>.
