@@ -1326,6 +1326,14 @@ de:
       notice: Inventur wurde erfolgreich angelegt.
     edit:
       title: Inventur bearbeiten
+    form:
+      create_from_blank: Ohne Vorlage anlegen
+      create_stock_article: Lagerartikel anlegen
+      new: Real (neuer Wert)
+      old: Vorher
+      title_1_select_associated_stock_takings: 1. Zugehörige Inventuren auswählen
+      title_2_set_new_quantities: 2. Neuen Lagerbestand eingeben
+      title_3_finish_stock_taking: 3. Inventur abschließen
     index:
       new_inventory: Neue Inventur anlegen
       title: Inventurübersicht
@@ -1347,6 +1355,8 @@ de:
       supplier: Lieferantin
       title: Inventur anzeigen
       unit: Einheit
+    stock_change_fields:
+      placeholder_new_quantity_available: unbekannt
     stock_takings:
       confirm_delete: Bist Du sicher?
       date: Datum
@@ -1491,6 +1501,7 @@ de:
   ui:
     actions: Aktionen
     close: Schließen
+    copy: Kopieren
     delete: Löschen
     edit: Bearbeiten
     marks:

@@ -1330,6 +1330,14 @@ en:
       notice: Inventory was created successfully.
     edit:
       title: Edit inventory
+    form:
+      create_from_blank: Create new article
+      create_stock_article: Create stock article
+      new: Real (new value)
+      old: Previously
+      title_1_select_associated_stock_takings: 1. Select associated inventories
+      title_2_set_new_quantities: 2. Fill new article quantities
+      title_3_finish_stock_taking: 3. Finish inventory
     index:
       new_inventory: Create new inventory
       title: Inventory overview
@@ -1351,6 +1359,8 @@ en:
       supplier: Supplier
       title: Show inventory
       unit: Unit
+    stock_change_fields:
+      placeholder_new_quantity_available: unknown
     stock_takings:
       confirm_delete: Are you sure you want to delete this?
       date: Date
@@ -1495,6 +1505,7 @@ en:
   ui:
     actions: Actions
     close: Close
+    copy: Copy
     delete: Delete
     edit: Edit
     marks:

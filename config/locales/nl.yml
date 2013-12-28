@@ -1310,6 +1310,9 @@ nl:
       notice: Inventaris is opgenomen.
     edit:
       title: Inventaris aanpassen
+    form:
+      create_from_blank: Nieuw voorraadartikel invoeren
+      create_stock_article: Voorraadartikel invoeren
     index:
       new_inventory: Nieuwe inventaris opnemen
       title: Inventarisoverzicht
@@ -1475,6 +1478,7 @@ nl:
   ui:
     actions: Acties
     close: Sluiten
+    copy: Kopieer
     delete: Verwijder
     edit: Bewerk
     marks:

@@ -1333,6 +1333,9 @@ fr:
       notice: L'inventaire a été créé avec succès.
     edit:
       title: Modifier les données de l'inventaire
+    form:
+      create_from_blank: Ajouter un nouvel article quelconque
+      create_stock_article: Ajouter un article au stock
     index:
       new_inventory: Inventorier le stock
       title: Aperçu  de l'inventaire
@@ -1508,6 +1511,7 @@ fr:
   ui:
     actions: Actions
     close: Fermer
+    copy: Copier
     delete: Supprimer
     edit: Modifier
     marks:
