@@ -1,7 +1,3 @@
 - title t('.title')
 
-- simple_form_for(@stock_taking) do |f|
-  = f.input :date
-  = f.input :note
-  = f.submit
-  = link_to t('ui.or_cancel'), stock_takings_path
+= render :partial => 'form'

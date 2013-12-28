@@ -1,9 +1,15 @@
-%p
-  = simple_fields_for "stock_taking[stock_change_attributes][]", stock_change do |form|
-    = form.hidden_field :stock_article_id
-    = t '.amount'
-    (#{stock_change.stock_article.quantity_available})
-    = form.text_field :quantity, :size => 5, :autocomplete => 'off'
-    %span{:data => {:toggle => :tooltip, :title => render(:partial => 'shared/article_price_info', :locals => {:article => stock_change.stock_article})}}
-      %b= stock_change.stock_article.name
-      = "(#{number_to_currency(stock_change.stock_article.price)} / #{stock_change.stock_article.unit})"
+- stock_change = f.object
+- stock_article = stock_change.stock_article
+%tr{:id => "stock_change_stock_article_#{stock_article.id}", :data => {:id => stock_article.id}}
+  %td.stock_article_name= stock_article.name
+  %td{:data => {:toggle => :tooltip, :title => render(:partial => 'shared/article_price_info', :locals => {:article => stock_article})}}= number_to_currency stock_article.price
+  %td.stock_article_unit= stock_article.unit
+  %td.stock_article_category= stock_article.article_category.name
+  %td.stock_article_old_quantity_available= stock_change.old_quantity_available
+  %td
+    = f.association :stock_article, :as => :hidden
+    = f.input :new_quantity_available, :wrapper => :intable, :input_html => {:autocomplete => :off, :placeholder => t('.placeholder_new_quantity_available', :default => '???')}, as: :integer
+  %td
+    = link_to t('.action_edit'), edit_stock_article_path(stock_article), remote: true, class: 'btn btn-mini'
+    = link_to t('.action_other_price'), stock_article_copy_path(stock_article), remote: true, class: 'btn btn-mini'
+

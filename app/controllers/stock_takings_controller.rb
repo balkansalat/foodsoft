@@ -7,49 +7,47 @@ class StockTakingsController < ApplicationController
 
   def new
     @stock_taking = StockTaking.new
-    StockArticle.undeleted.each { |a| @stock_taking.stock_changes.build(:stock_article => a) }
+    @stock_taking.date = Date.today #TODO: move to model/database
+    @stock_taking.include_all_stock_articles
   end
 
   def create
-    create!(:notice => I18n.t('stock_takings.create.notice'))
+    @stock_taking = StockTaking.new(params[:stock_taking])
+    
+    if @stock_taking.save
+      flash[:notice] = I18n.t('stock_takings.create.notice')
+      redirect_to @stock_taking
+    else
+      render :action => "new"
+    end
+  end
+
+  def edit
+    @stock_taking = StockTaking.find(params[:id])
+    @stock_taking.include_all_stock_articles
   end
 
   def update
-    update!(:notice => I18n.t('stock_takings.update.notice'))
-  end
+    @stock_taking = StockTaking.find(params[:id])
 
-  def fill_new_stock_article_form
-    article = Article.find(params[:article_id])
-    supplier = article.supplier
-    stock_article = supplier.stock_articles.build(
-      article.attributes.reject { |attr| attr == ('id' || 'type')}
-    )
-
-    render :partial => 'stock_article_form', :locals => {:stock_article => stock_article}
+    if @stock_taking.update_attributes(params[:stock_taking])
+      flash[:notice] = I18n.t('stock_takings.update.notice')
+      redirect_to @stock_taking
+    else
+      render :action => "edit"
+    end
   end
   
-  def add_stock_article
-    article = StockArticle.new(params[:stock_article])
-    render :update do |page|
-      if article.save
-        page.insert_html :top, 'stock_changes', :partial => 'stock_change',
-          :locals => {:stock_change => article.stock_changes.build}
-
-        page.replace_html 'new_stock_article', :partial => 'stock_article_form',
-          :locals => {:stock_article => StockArticle.new}
-      else
-        page.replace_html 'new_stock_article', :partial => 'stock_article_form',
-          :locals => {:stock_article => article}
-      end
-    end
+  def form_on_stock_article_create # See publish/subscribe design pattern in /doc.
+    stock_article = StockArticle.find(params[:id])
+    @stock_change = stock_article.stock_changes.new(:quantity => nil)
+    
+    render :layout => false
   end
 
-  def drop_stock_change
-    stock_change = StockChange.find(params[:stock_change_id])
-    stock_change.destroy
-
-    render :update do |page|
-      page.visual_effect :DropOut, "stock_change_#{stock_change.id}"
-    end
+  def form_on_stock_article_update # See publish/subscribe design pattern in /doc.
+    @stock_article = StockArticle.find(params[:id])
+    
+    render :layout => false
   end
 end

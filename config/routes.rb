@@ -80,8 +80,8 @@ Foodsoft::Application.routes.draw do
 
     resources :stock_takings do
       collection do
-        get :fill_new_stock_article_form
-        post :add_stock_article
+        get :form_on_stock_article_create
+        get :form_on_stock_article_update
       end
     end
 

@@ -1,0 +1,13 @@
+// Handle more advanced DOM update after AJAX database manipulation.
+// See publish/subscribe design pattern in /doc.
+(function(w) {
+  $('#stock_changes tr').removeClass('success');
+  
+  var stock_change_entry = $(
+    '<%= j(render(:partial => 'stock_change', :locals => {:stock_change => @stock_change})) %>'
+  ).addClass('success');
+  
+  $('#stock_changes tbody').append(stock_change_entry);
+  updateSort('#stock_changes');
+})(window);
+

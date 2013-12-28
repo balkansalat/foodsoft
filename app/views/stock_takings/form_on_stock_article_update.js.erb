@@ -1,0 +1,16 @@
+// Handle more advanced DOM update after AJAX database manipulation.
+// See publish/subscribe design pattern in /doc.
+(function(w) {
+  $('#stock_changes tr').removeClass('success');
+  
+  var stock_change_entry = $('#stock_change_stock_article_<%= @stock_article.id %>');
+  
+  $('td.stock_article_name', stock_change_entry).text('<%= j @stock_article.name %>');
+  $('td.stock_article_unit', stock_change_entry).text('<%= j @stock_article.unit %>');
+  $('td.stock_article_category', stock_change_entry).text('<%= j @stock_article.article_category.name %>');
+  
+  stock_change_entry.addClass('success');
+  
+  updateSort('#stock_changes');
+})(window);
+

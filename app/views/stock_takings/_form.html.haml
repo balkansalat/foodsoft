@@ -1,0 +1,105 @@
+- content_for :javascript do
+  :javascript
+    $(function() {
+      $('#new_stock_article').removeAttr('disabled').select2({
+        placeholder: '#{t '.create_stock_article', default: 'Create stock article'}',
+        data: #{articles_for_select2(Article.undeleted.not_in_stock).to_json},
+        createSearchChoice: function(term) {
+          return {
+            id: 'new',
+            text: term
+          };
+        },
+        formatResult: function(result, container, query, escapeMarkup) {
+          if(result.id == 'new') {
+            return result.text + ' (#{t '.create_from_blank'})';
+          }
+          var markup=[];
+          Select2.util.markMatch(result.text, query.term, markup, escapeMarkup);
+          return markup.join("");
+        }
+      }).on('change', function(e) {
+        var selectedArticle = $(e.currentTarget).select2('data');
+        if(!selectedArticle) {
+          return false;
+        }
+        if('new' == selectedArticle.id) {
+          $.ajax({
+            url: '#{new_stock_article_path}',
+            type: 'get',
+            data: {stock_article: {name: selectedArticle.text}},
+            contentType: 'application/json; charset=UTF-8'
+          });
+          $('#new_stock_article').select2('data', null);
+          return true;
+        }
+        if('' != selectedArticle.id) {
+          $.ajax({
+            url: '#{derive_stock_articles_path}',
+            type: 'get',
+            data: {old_article_id: selectedArticle.id},
+            contentType: 'application/json; charset=UTF-8'
+          });
+          $('#new_stock_article').select2('data', null);
+          return true;
+        }
+      });
+      
+      // Subscribe to database changes.
+      // See publish/subscribe design pattern in /doc.
+      $(document).on('StockArticle#create', function(e) {
+        $.ajax({
+          url: '#{form_on_stock_article_create_stock_takings_path}',
+          type: 'get',
+          data: {id: e.stock_article_id},
+          contentType: 'application/json; charset=UTF-8'
+        });
+      });
+      
+      $(document).on('StockArticle#update', function(e) {
+        $.ajax({
+          url: '#{form_on_stock_article_update_stock_takings_path}',
+          type: 'get',
+          data: {id: e.stock_article_id},
+          contentType: 'application/json; charset=UTF-8'
+        });
+      });
+    });
+
+= simple_form_for(@stock_taking) do |f|
+  = f.error_notification
+  = base_errors f.object
+  
+  %h2= t '.title_select_associated_stock_takings'
+  
+  %h2= t '.title_set_new_quantities'
+  %table#stock_changes.table.table-hover.stupidtable
+    %thead
+      %tr
+        %th{:colspan => 4}= StockArticle.model_name.human
+        %th{:colspan => 2}= heading_helper StockArticle, :available
+        %th{:rowspan => 2}= t 'ui.actions'
+      %tr
+        %th.default-sort{:data => {:sort => 'string'}}= heading_helper StockArticle, :name
+        %th= heading_helper StockArticle, :price
+        %th= heading_helper StockArticle, :unit
+        %th= heading_helper StockArticle, :article_category
+        %th= t '.old'
+        %th= t '.new'
+    %tfoot
+      %tr
+        %th{:colspan => 5}
+          - if Article.undeleted.empty?
+            = link_to t('.create_stock_article'), new_stock_article_path, :remote => true, :class => 'btn'
+          - else
+            %input#new_stock_article{:style => 'width: 500px;'}
+    %tbody
+      = f.simple_fields_for :stock_changes do |stock_change_form|
+        = render :partial => 'stock_change', :locals => {:f => stock_change_form}
+  
+  %h2= t '.title_finish_stock_taking'
+  = f.input :date, as: :date_picker
+  = f.input :note, :input_html => {:size => "35x4", :value => "#{show_user @current_user, unique: true}: ..."}
+  .form-actions
+    = f.submit class: 'btn btn-primary'
+    = link_to t('ui.or_cancel'), stock_takings_path
