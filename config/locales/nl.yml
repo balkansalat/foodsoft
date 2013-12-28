@@ -1317,15 +1317,9 @@ nl:
     new:
       title: Inventaris opnemen
     show:
-      amount: Aantal
-      article: Artikel
       confirm_delete: Wil je de inventaris echt verwijderen?
-      date: Datum
-      note: Notitie
       overview: Inventarisoverzicht
-      supplier: Leverancier
       title: Inventarisoverzicht
-      unit: Eenheid
     stock_takings:
       confirm_delete: Weet je zeker dat je dit wilt verwijderen?
       date: Datum

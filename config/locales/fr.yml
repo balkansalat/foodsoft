@@ -1340,15 +1340,9 @@ fr:
     new:
       title: Inventorier le stock
     show:
-      amount: Quantité
-      article: Article
       confirm_delete: Vraiment annuler cet inventaire?
-      date: Date
-      note: Note
       overview: Aperçu de l'inventaire
-      supplier: FournisseusE_r
       title: Afficher l'inventaire
-      unit: Unité
     stock_takings:
       confirm_delete: T'es sûrE de ton coup?
       date: Date

@@ -84,8 +84,8 @@
         %th= heading_helper StockArticle, :price
         %th= heading_helper StockArticle, :unit
         %th= heading_helper StockArticle, :article_category
-        %th= t '.old'
-        %th= t '.new'
+        %th= heading_helper StockChange, :old_quantity_available
+        %th= heading_helper StockChange, :new_quantity_available
     %tfoot
       %tr
         %th{:colspan => 5}

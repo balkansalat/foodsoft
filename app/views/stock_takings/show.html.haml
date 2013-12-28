@@ -2,23 +2,36 @@
 
 .well.well-small
   %dl.dl-horizontal
-    %dt= t '.date'
+    %dt= heading_helper StockTaking, :date
     %dd= format_date @stock_taking.date
-    %dt= t '.note'
+    %dt= heading_helper StockTaking, :note
     %dd= simple_format @stock_taking.note
 
 %table.table.table-striped
-  %tr
-    %th= t '.article'
-    %th= t '.supplier'
-    %th= t '.unit'
-    %th= t '.amount'
-  - for stock_change in @stock_taking.stock_changes.all
+  %thead
     %tr
-      %td= stock_change.stock_article.name
-      %td= stock_change.stock_article.supplier.name
-      %td= stock_change.stock_article.unit
+      %th{:colspan => 5}= StockArticle.model_name.human
+      %th{:colspan => 3}= heading_helper StockArticle, :available
+    %tr
+      %th= heading_helper StockArticle, :name
+      %th= Supplier.model_name.human
+      %th= heading_helper StockArticle, :price
+      %th= heading_helper StockArticle, :unit
+      %th= heading_helper StockArticle, :article_category
+      %th= heading_helper StockChange, :old_quantity_available
+      %th= heading_helper StockChange, :quantity
+      %th= heading_helper StockChange, :new_quantity_available
+  - for stock_change in @stock_taking.stock_changes.all
+    - stock_article = stock_change.stock_article
+    %tr
+      %td= stock_article.name
+      %td= stock_article.supplier.name
+      %td{:data => {:toggle => :tooltip, :title => render(:partial => 'shared/article_price_info', :locals => {:article => stock_article})}}= number_to_currency stock_article.price
+      %td= stock_article.unit
+      %td= stock_article.article_category.name
+      %td= stock_change.old_quantity_available
       %td= stock_change.quantity
+      %td= stock_change.new_quantity_available
 
 .btn-group
   = link_to t('ui.edit'), edit_stock_taking_path(@stock_taking), class: 'btn'

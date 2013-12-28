@@ -102,6 +102,10 @@ en:
         quantity_available: Available quantity
         quantity_available_short: Avail.
         quantity_ordered: Ordered
+      stock_change:
+        new_quantity_available: Hinterher
+        old_quantity_available: Vorher
+        quantity: Veränderung
       stock_taking:
         date: Date
         note: Note
@@ -1331,8 +1335,6 @@ en:
     form:
       create_from_blank: Create new article
       create_stock_article: Create stock article
-      new: Real (new value)
-      old: Previously
       title_1_select_associated_stock_takings: 1. Select associated inventories
       title_2_set_new_quantities: 2. Fill new article quantities
       title_3_finish_stock_taking: 3. Finish inventory
@@ -1342,15 +1344,9 @@ en:
     new:
       title: Create new inventory
     show:
-      amount: Amount
-      article: Article
       confirm_delete: Do you really want to delete the inventory?
-      date: Date
-      note: Note
       overview: Inventory overview
-      supplier: Supplier
       title: Show inventory
-      unit: Unit
     stock_change_fields:
       placeholder_new_quantity_available: unknown
     stock_takings:

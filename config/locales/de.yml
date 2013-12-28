@@ -102,6 +102,10 @@ de:
         quantity_available: Verfügbarer Bestand
         quantity_available_short: Verf.
         quantity_ordered: Davon bestellt
+      stock_change:
+        new_quantity_available: Hinterher
+        old_quantity_available: Vorher
+        quantity: Veränderung
       stock_taking:
         date: Datum
         note: Notiz
@@ -1327,8 +1331,6 @@ de:
     form:
       create_from_blank: Ohne Vorlage anlegen
       create_stock_article: Lagerartikel anlegen
-      new: Real (neuer Wert)
-      old: Vorher
       title_1_select_associated_stock_takings: 1. Zugehörige Inventuren auswählen
       title_2_set_new_quantities: 2. Neuen Lagerbestand eingeben
       title_3_finish_stock_taking: 3. Inventur abschließen
@@ -1338,15 +1340,9 @@ de:
     new:
       title: Neue Inventur anlegen
     show:
-      amount: Menge
-      article: Artikel
-      confirm_delete: Willst Du wirklicht die Inventur löschen?
-      date: Datum
-      note: Notiz
+      confirm_delete: Willst Du wirklich die Inventur löschen?
       overview: Inventurübersicht
-      supplier: Lieferantin
       title: Inventur anzeigen
-      unit: Einheit
     stock_change_fields:
       placeholder_new_quantity_available: unbekannt
     stock_takings:
