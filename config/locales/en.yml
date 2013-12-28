@@ -415,8 +415,6 @@ en:
       title_articles: Articles
     stock_article_for_adding:
       action_add_to_delivery: Add to delivery
-      action_edit: Edit
-      action_other_price: Copy
     stock_change_fields:
       remove_article: Remove article from delivery
     suppliers_overview: Supplier overview
@@ -1342,12 +1340,6 @@ en:
       new_inventory: Create new inventory
       title: Inventory overview
     new:
-      amount: Amount
-      create: create
-      stock_articles: Stock articles
-      temp_inventory: temporary inventory
-      text_deviations: Please fill in all surplus deviations from the %{inv_link}. For reduction, use a a negative number.
-      text_need_articles: You have to %{create_link} a new stock article before you can use it here.
       title: Create new inventory
     show:
       amount: Amount

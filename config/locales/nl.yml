@@ -415,8 +415,6 @@ nl:
       title_articles: Artikelen
     stock_article_for_adding:
       action_add_to_delivery: Voeg toe aan levering
-      action_edit: Bewerk
-      action_other_price: Kopieer
     stock_change_fields:
       remove_article: Artikel uit levering halen
     suppliers_overview: Leverancieroverzicht
@@ -1317,12 +1315,6 @@ nl:
       new_inventory: Nieuwe inventaris opnemen
       title: Inventarisoverzicht
     new:
-      amount: Aantal
-      create: aanmaken
-      stock_articles: Voorraadartikelen
-      temp_inventory: tijdelijke inventaris
-      text_deviations: Vul alle afwijkingen in van de %{inv_link}. Als er minder is dan vermeld, gebruik dan een negatief getal.
-      text_need_articles: Je moet een nieuw voorraadartikel %{create_link} voordat je het hier kunt gebruiken.
       title: Inventaris opnemen
     show:
       amount: Aantal

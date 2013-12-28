@@ -413,8 +413,6 @@ de:
       title_articles: Artikel
     stock_article_for_adding:
       action_add_to_delivery: Liefern
-      action_edit: Bearbeiten
-      action_other_price: Kopieren
     stock_change_fields:
       remove_article: Artikel aus Lieferung entfernen
     suppliers_overview: Lieferantenübersicht
@@ -1338,12 +1336,6 @@ de:
       new_inventory: Neue Inventur anlegen
       title: Inventurübersicht
     new:
-      amount: Menge
-      create: anlegen
-      stock_articles: Lagerartikel
-      temp_inventory: vorläufigen Lagerbestand
-      text_deviations: Bitte trage hier alle gezählten Abweichungen vom %{inv_link} ein. Bei Schwund benutze einfach ein Minus vor der Zahl.
-      text_need_articles: Einen neuen Lagerartikel musst Du vorher %{create_link} bevor Du Ihn hier verwenden kannst.
       title: Neue Inventur anlegen
     show:
       amount: Menge

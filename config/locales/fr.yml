@@ -419,8 +419,6 @@ fr:
       title_articles: Articles
     stock_article_for_adding:
       action_add_to_delivery: Commander
-      action_edit: Modifier
-      action_other_price: Copier
     stock_change_fields:
       remove_article: Retirer l'article de cette commande
     suppliers_overview: Liste des fournisseusEs_rs
@@ -1340,14 +1338,6 @@ fr:
       new_inventory: Inventorier le stock
       title: Aperçu  de l'inventaire
     new:
-      amount: 
-      create: ajouter
-      stock_articles: Articles en stock
-      temp_inventory: l'inventaire courant
-      text_deviations: ! 'Saisir ici les déviations constatées par rapport à %{inv_link}.
-
-        En cas de manque, utiliser un signe ''-''.'
-      text_need_articles: Si certains articles n'apparaissent pas sur l'inventaire courant, il faut les y %{create_link} directement.
       title: Inventorier le stock
     show:
       amount: Quantité
