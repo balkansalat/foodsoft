@@ -95,7 +95,7 @@
             %input#new_stock_article{:style => 'width: 500px;'}
     %tbody
       = f.simple_fields_for :stock_changes do |stock_change_form|
-        = render :partial => 'stock_change', :locals => {:f => stock_change_form}
+        = render :partial => 'stock_change_fields', :locals => {:f => stock_change_form}
   
   %h2= t '.title_finish_stock_taking'
   = f.input :date, as: :date_picker
