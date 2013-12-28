@@ -1169,6 +1169,7 @@ de:
       title_list: Seiten-Liste
     body:
       title_toc: Inhalt
+      wikicloth_exception: "Entschuldigung, ein Fehler ist beim Anzeigen der Wikiseite aufgetreten: »%{msg}«. Bearbeiten der Seite kann helfen, diesen Fehler zu beseitigen."
     create:
       notice: Seite wurde angelegt
     cshow:
@@ -1358,6 +1359,8 @@ de:
       title: Lagerartikel kopieren
     create:
       notice: Neuer Lagerartikel »%{name}« gespeichert.
+    derive:
+      title: Lagerartikel aus Vorlage erstellen
     destroy:
       notice: Artikel %{name} gelöscht.
     edit:
