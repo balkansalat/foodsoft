@@ -2,7 +2,7 @@ class StockTakingsController < ApplicationController
   inherit_resources
 
   def index
-    @stock_takings = StockTaking.order('date DESC').page(params[:page]).per(@per_page)
+    @stock_takings = StockTaking.order('id DESC').page(params[:page]).per(@per_page)
   end
 
   def new
@@ -47,6 +47,18 @@ class StockTakingsController < ApplicationController
 
   def form_on_stock_article_update # See publish/subscribe design pattern in /doc.
     @stock_article = StockArticle.find(params[:id])
+    
+    render :layout => false
+  end
+
+  def mark_associated_stock_changes
+    base_stock_taking = StockTaking.where(id: params[:stock_taking_id])
+    selected_stock_takings = StockTaking.all(conditions: ["id >= ? AND id <> ?",
+      params[:associated_stock_taking_id], params[:stock_taking_id]])
+    
+    associated_article_ids = selected_stock_takings.map{|t| t.stock_changes.all}.flatten.map{|c| c.stock_article_id}
+    @article_update_counts = Hash.new(0)
+    associated_article_ids.each{|id| @article_update_counts[id] += 1}
     
     render :layout => false
   end

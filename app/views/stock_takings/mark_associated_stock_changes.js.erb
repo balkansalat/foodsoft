@@ -1,0 +1,27 @@
+
+(function(w, undefined) {
+  // make sure that the user still wants the data which is provided by this request
+  var selected_id = $('#associated_stock_takings').val();
+  if(selected_id != '<%= j params[:associated_stock_taking_id].to_s %>') {
+    return false;
+  }
+  var base_id = $('#associated_stock_takings').data('base-id');
+  if(base_id != '<%= j params[:stock_taking_id].to_s %>') {
+    return false;
+  }
+  
+  // @article_update_counts is a Hash. For each stock_article.id the update count is given
+  var article_update_counts = <%= @article_update_counts.to_json.html_safe %>;
+  
+  // save each count in the corresponding $('tr').data(...)
+  $('#stock_changes tbody tr').each(function() {
+    var stock_article_id = $(this).data('id');
+    var count = article_update_counts[stock_article_id];
+    count = (count === undefined) ? (0) : (count);
+    $(this).data('associated-count', count); // the count excluding this stock_taking
+  });
+  
+  update_stock_article_stock_change_count();
+  updateSort('#stock_changes'); // TODO: check performance for about 500 articles
+})(window);
+

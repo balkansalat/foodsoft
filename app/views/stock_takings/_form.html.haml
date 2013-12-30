@@ -64,28 +64,69 @@
           contentType: 'application/json; charset=UTF-8'
         });
       });
+      
+      $('#associated_stock_takings').on('keyup change', function(e) {
+        $.ajax({
+          url: '#{mark_associated_stock_changes_stock_takings_path}',
+          type: 'get',
+          data: {stock_taking_id: '#{@stock_taking.id}', associated_stock_taking_id: $(this).val()},
+          contentType: 'application/json; charset=UTF-8'
+        });
+      });
+      
+      $('#stock_changes tbody').on('keyup change', 'input.quantity-input', update_stock_article_stock_change_count);
+      
+      $('#associated_stock_takings').trigger('change');
+      
     });
+    
+    function update_stock_article_stock_change_count(e) {
+      // update only one table row if event is given
+      var context = ('undefined' === typeof(e))
+        ? $('#stock_changes tbody tr')
+        : $(e.currentTarget).closest('tr');
+      
+      context.each(function() {
+        var is_filled = $('.quantity-input', this).val() != '';
+        var count = is_filled + $(this).data('associated-count');
+        var old_count = $(this).data('count');
+        $(this).data('count', count);
+        
+        $('.stock_change_status', this)
+          .text(count)
+          .toggleClass('label-success', count > 0);
+      });
+    }
 
 = simple_form_for(@stock_taking) do |f|
   = f.error_notification
   = base_errors f.object
   
   %h2= t '.title_1_select_associated_stock_takings'
-  
+  %select{id: 'associated_stock_takings', data: {base_id: @stock_taking.id.to_s}}
+    %optgroup{label: t('.default_selection', default: '-')}
+      %option{value: '', selected: :selected}= t '.no_thanks'
+    %optgroup{label: t('.first_associated_stock_taking', default: '-')}
+      - for referenced_stock_taking in StockTaking.reorder('id DESC').limit(50)
+        %option{value: referenced_stock_taking.id, title: referenced_stock_taking.note}
+          #{l referenced_stock_taking.created_at, format: :short}
+          |
+          #{truncate referenced_stock_taking.note, length: 10}
+    %optgroup{label: t('.older_entries_hidden', default: '…')}
+    
   %h2= t '.title_2_set_new_quantities'
   %table#stock_changes.table.table-hover.stupidtable
     %thead
       %tr
-        %th{:colspan => 4}= StockArticle.model_name.human
-        %th{:colspan => 2}= heading_helper StockArticle, :available
-        %th{:rowspan => 2}= t 'ui.actions'
-      %tr
-        %th.default-sort{:data => {:sort => 'string'}}= heading_helper StockArticle, :name
+        %th{:data => {:sort => 'int'}}
+          %i.icon.icon-ok
+        %th.default-sort{:data => {:sort => 'string'}}= StockArticle.model_name.human
         %th= heading_helper StockArticle, :price
         %th= heading_helper StockArticle, :unit
         %th= heading_helper StockArticle, :article_category
         %th= heading_helper StockChange, :old_quantity_available
         %th= heading_helper StockChange, :new_quantity_available
+        %th= t 'ui.actions'
     %tfoot
       %tr
         %th{:colspan => 5}

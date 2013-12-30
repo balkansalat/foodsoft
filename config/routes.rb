@@ -82,6 +82,8 @@ Foodsoft::Application.routes.draw do
       collection do
         get :form_on_stock_article_create
         get :form_on_stock_article_update
+        
+        get :mark_associated_stock_changes
       end
     end
 
